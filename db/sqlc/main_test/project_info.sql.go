@@ -21,7 +21,7 @@ INSERT INTO projects_info (
     website,
     git,
     cmc,
-    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING project_name, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at
+    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at
 `
 
 type CreateProjectInfoParams struct {
@@ -53,6 +53,9 @@ func (q *Queries) CreateProjectInfo(ctx context.Context, arg CreateProjectInfoPa
 	var i ProjectsInfo
 	err := row.Scan(
 		&i.ProjectName,
+		&i.Symbol,
+		&i.ContractAddress,
+		&i.Explorer,
 		&i.Twitter,
 		&i.Facebook,
 		&i.Linkedin,
@@ -77,7 +80,7 @@ func (q *Queries) DeleteProject(ctx context.Context, projectName string) error {
 }
 
 const getListProjects = `-- name: GetListProjects :many
-SELECT project_name, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at FROM projects_info
+SELECT project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at FROM projects_info
 ORDER BY project_name
 `
 
@@ -92,6 +95,9 @@ func (q *Queries) GetListProjects(ctx context.Context) ([]ProjectsInfo, error) {
 		var i ProjectsInfo
 		if err := rows.Scan(
 			&i.ProjectName,
+			&i.Symbol,
+			&i.ContractAddress,
+			&i.Explorer,
 			&i.Twitter,
 			&i.Facebook,
 			&i.Linkedin,
@@ -117,7 +123,7 @@ func (q *Queries) GetListProjects(ctx context.Context) ([]ProjectsInfo, error) {
 }
 
 const getOneProject = `-- name: GetOneProject :one
-SELECT project_name, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at FROM projects_info
+SELECT project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at FROM projects_info
 WHERE project_name = $1
 LIMIT 1
 `
@@ -127,6 +133,9 @@ func (q *Queries) GetOneProject(ctx context.Context, projectName string) (Projec
 	var i ProjectsInfo
 	err := row.Scan(
 		&i.ProjectName,
+		&i.Symbol,
+		&i.ContractAddress,
+		&i.Explorer,
 		&i.Twitter,
 		&i.Facebook,
 		&i.Linkedin,

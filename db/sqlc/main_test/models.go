@@ -13,7 +13,7 @@ type Content struct {
 	ID          int32          `json:"id"`
 	ProjectName string         `json:"project_name"`
 	Content     string         `json:"content"`
-	CharCount   string         `json:"char_count"`
+	CharCount   int32          `json:"char_count"`
 	ImageLink   sql.NullString `json:"image_link"`
 	ImageID     sql.NullInt32  `json:"image_id"`
 	Platform    string         `json:"platform"`
@@ -34,17 +34,20 @@ type ImageContent struct {
 }
 
 type ProjectsInfo struct {
-	ProjectName string         `json:"project_name"`
-	Twitter     sql.NullString `json:"twitter"`
-	Facebook    sql.NullString `json:"facebook"`
-	Linkedin    sql.NullString `json:"linkedin"`
-	Medium      sql.NullString `json:"medium"`
-	Telegram    sql.NullString `json:"telegram"`
-	Website     sql.NullString `json:"website"`
-	Git         sql.NullString `json:"git"`
-	Cmc         sql.NullString `json:"cmc"`
-	Coingecko   sql.NullString `json:"coingecko"`
-	CreatedAt   time.Time      `json:"created_at"`
+	ProjectName     string         `json:"project_name"`
+	Symbol          sql.NullString `json:"symbol"`
+	ContractAddress sql.NullString `json:"contract_address"`
+	Explorer        sql.NullString `json:"explorer"`
+	Twitter         sql.NullString `json:"twitter"`
+	Facebook        sql.NullString `json:"facebook"`
+	Linkedin        sql.NullString `json:"linkedin"`
+	Medium          sql.NullString `json:"medium"`
+	Telegram        sql.NullString `json:"telegram"`
+	Website         sql.NullString `json:"website"`
+	Git             sql.NullString `json:"git"`
+	Cmc             sql.NullString `json:"cmc"`
+	Coingecko       sql.NullString `json:"coingecko"`
+	CreatedAt       time.Time      `json:"created_at"`
 }
 
 type Tag struct {

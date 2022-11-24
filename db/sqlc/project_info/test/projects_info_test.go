@@ -5,11 +5,12 @@ import (
 	"database/sql"
 	"testing"
 
+	db "github.com/nina/db/sqlc/project_info/gen"
 	"github.com/stretchr/testify/require"
 )
 
 func TestCreateProject(t *testing.T) {
-	arg := CreateProjectInfoParams{
+	arg := db.CreateProjectInfoParams{
 		ProjectName: "Supreme Finance",
 		Twitter:     sql.NullString{String: "https://twitter.com/SupremeFinance2", Valid: true},
 		Facebook:    sql.NullString{String: "https://www.facebook.com/Supreme-Finance-100106618907034", Valid: true},

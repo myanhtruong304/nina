@@ -26,7 +26,7 @@ INSERT INTO content (
 type CreateOneContentParams struct {
 	ProjectName string         `json:"project_name"`
 	Content     string         `json:"content"`
-	CharCount   string         `json:"char_count"`
+	CharCount   int32          `json:"char_count"`
 	ImageLink   sql.NullString `json:"image_link"`
 	Platform    string         `json:"platform"`
 	ContentType string         `json:"content_type"`

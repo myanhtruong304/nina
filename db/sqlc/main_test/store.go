@@ -77,6 +77,5 @@ func (s *Store) UpdateImageLinkTx(ctx context.Context, arg CreateImageTx) (Updat
 		}
 		return nil
 	})
-
 	return result, err
 }

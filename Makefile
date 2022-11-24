@@ -13,10 +13,12 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://root:nina@localhost:5435/nina_app?sslmode=disable" -verbose down
 
+seed-db:
+	migrate -path db/seed -database "postgresql://root:nina@localhost:5435/nina_app?sslmode=disable" -verbose up
 sqlc:
 	sqlc generate
 
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc
+.PHONY: postgres createdb dropdb migrateup migratedown seed-db sqlc test
