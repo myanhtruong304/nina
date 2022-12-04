@@ -158,3 +158,60 @@ func (q *Queries) GetOneProject(ctx context.Context, projectName string) (Projec
 	)
 	return i, err
 }
+
+const updateProjectInfo = `-- name: UpdateProjectInfo :one
+UPDATE projects_info SET symbol = $2, contract_address = $3, explorer = $4, twitter = $5, facebook = $6, linkedin = $7, medium = $8, telegram = $9, website = $10, git = $11, cmc = $12, coingecko = $13
+WHERE project_name = $1 RETURNING project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at
+`
+
+type UpdateProjectInfoParams struct {
+	ProjectName     string         `json:"project_name"`
+	Symbol          sql.NullString `json:"symbol"`
+	ContractAddress sql.NullString `json:"contract_address"`
+	Explorer        sql.NullString `json:"explorer"`
+	Twitter         sql.NullString `json:"twitter"`
+	Facebook        sql.NullString `json:"facebook"`
+	Linkedin        sql.NullString `json:"linkedin"`
+	Medium          sql.NullString `json:"medium"`
+	Telegram        sql.NullString `json:"telegram"`
+	Website         sql.NullString `json:"website"`
+	Git             sql.NullString `json:"git"`
+	Cmc             sql.NullString `json:"cmc"`
+	Coingecko       sql.NullString `json:"coingecko"`
+}
+
+func (q *Queries) UpdateProjectInfo(ctx context.Context, arg UpdateProjectInfoParams) (ProjectsInfo, error) {
+	row := q.queryRow(ctx, q.updateProjectInfoStmt, updateProjectInfo,
+		arg.ProjectName,
+		arg.Symbol,
+		arg.ContractAddress,
+		arg.Explorer,
+		arg.Twitter,
+		arg.Facebook,
+		arg.Linkedin,
+		arg.Medium,
+		arg.Telegram,
+		arg.Website,
+		arg.Git,
+		arg.Cmc,
+		arg.Coingecko,
+	)
+	var i ProjectsInfo
+	err := row.Scan(
+		&i.ProjectName,
+		&i.Symbol,
+		&i.ContractAddress,
+		&i.Explorer,
+		&i.Twitter,
+		&i.Facebook,
+		&i.Linkedin,
+		&i.Medium,
+		&i.Telegram,
+		&i.Website,
+		&i.Git,
+		&i.Cmc,
+		&i.Coingecko,
+		&i.CreatedAt,
+	)
+	return i, err
+}

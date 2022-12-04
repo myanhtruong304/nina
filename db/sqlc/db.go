@@ -66,6 +66,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.updatePostStatusStmt, err = db.PrepareContext(ctx, updatePostStatus); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdatePostStatus: %w", err)
 	}
+	if q.updateProjectInfoStmt, err = db.PrepareContext(ctx, updateProjectInfo); err != nil {
+		return nil, fmt.Errorf("error preparing query UpdateProjectInfo: %w", err)
+	}
 	if q.updateProjectTagStmt, err = db.PrepareContext(ctx, updateProjectTag); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdateProjectTag: %w", err)
 	}
@@ -144,6 +147,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing updatePostStatusStmt: %w", cerr)
 		}
 	}
+	if q.updateProjectInfoStmt != nil {
+		if cerr := q.updateProjectInfoStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing updateProjectInfoStmt: %w", cerr)
+		}
+	}
 	if q.updateProjectTagStmt != nil {
 		if cerr := q.updateProjectTagStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing updateProjectTagStmt: %w", cerr)
@@ -202,6 +210,7 @@ type Queries struct {
 	updateImageLinkStmt      *sql.Stmt
 	updateLinkStmt           *sql.Stmt
 	updatePostStatusStmt     *sql.Stmt
+	updateProjectInfoStmt    *sql.Stmt
 	updateProjectTagStmt     *sql.Stmt
 }
 
@@ -223,6 +232,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		updateImageLinkStmt:      q.updateImageLinkStmt,
 		updateLinkStmt:           q.updateLinkStmt,
 		updatePostStatusStmt:     q.updatePostStatusStmt,
+		updateProjectInfoStmt:    q.updateProjectInfoStmt,
 		updateProjectTagStmt:     q.updateProjectTagStmt,
 	}
 }

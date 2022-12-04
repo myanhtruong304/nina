@@ -1,36 +1,45 @@
 package db
 
-// func TestUpdateContent(t *testing.T) {
-// 	store := NewStore(testDB)
+import (
+	"context"
+	"database/sql"
+	"testing"
+	"time"
 
-// 	n := 5
-// 	link := sql.NullString{String: "https://drive.google.com/file/d/1ruqbOMCXcovbT9Z_hLwdl53PUIQgd8QC/view?usp=sharing", Valid: true}
+	"github.com/stretchr/testify/require"
+)
 
-// 	errs := make(chan error)
-// 	results := make(chan UpdateImageTxResult)
-// 	for i := 0; i < n; i++ {
-// 		go func() {
-// 			result, err := store.UpdateImageLinkTx(context.Background(), CreateImageTx{
-// 				ContentID: 1,
-// 				ImageLink: link.String,
-// 				UpdatedAt: time.Now(),
-// 			})
+func TestUpdateContent(t *testing.T) {
+	store := NewStore(testDB)
 
-// 			errs <- err
-// 			results <- result
-// 		}()
-// 	}
+	n := 5
+	link := sql.NullString{String: "https://drive.google.com/file/d/1ruqbOMCXcovbT9Z_hLwdl53PUIQgd8QC/view?usp=sharing", Valid: true}
 
-// 	for i := 0; i < n; i++ {
-// 		err := <-errs
-// 		require.NoError(t, err)
+	errs := make(chan error)
+	results := make(chan UpdateImageTxResult)
+	for i := 0; i < n; i++ {
+		go func() {
+			result, err := store.UpdateImageLinkTx(context.Background(), CreateImageTx{
+				ContentID: 1,
+				ImageLink: link.String,
+				UpdatedAt: time.Now(),
+			})
 
-// 		result := <-results
-// 		require.NotEmpty(t, result)
-// 		require.Equal(t, result.Content.ImageLink, link)
+			errs <- err
+			results <- result
+		}()
+	}
 
-// 		_, err = store.GetContentOneProject(context.Background(), "Supreme Finance")
-// 		require.NoError(t, err)
-// 	}
+	for i := 0; i < n; i++ {
+		err := <-errs
+		require.NoError(t, err)
 
-// }
+		result := <-results
+		require.NotEmpty(t, result)
+		require.Equal(t, result.Content.ImageLink, link)
+
+		_, err = store.GetContentOneProject(context.Background(), "Supreme Finance")
+		require.NoError(t, err)
+	}
+
+}
