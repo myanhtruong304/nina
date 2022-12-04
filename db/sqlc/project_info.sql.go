@@ -13,6 +13,9 @@ import (
 const createProjectInfo = `-- name: CreateProjectInfo :one
 INSERT INTO projects_info (
     project_name,
+    symbol,
+    contract_address,
+    explorer,
     twitter,
     facebook,
     linkedin,
@@ -21,25 +24,31 @@ INSERT INTO projects_info (
     website,
     git,
     cmc,
-    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at
+    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING project_name, symbol, contract_address, explorer, twitter, facebook, linkedin, medium, telegram, website, git, cmc, coingecko, created_at
 `
 
 type CreateProjectInfoParams struct {
-	ProjectName string         `json:"project_name"`
-	Twitter     sql.NullString `json:"twitter"`
-	Facebook    sql.NullString `json:"facebook"`
-	Linkedin    sql.NullString `json:"linkedin"`
-	Medium      sql.NullString `json:"medium"`
-	Telegram    sql.NullString `json:"telegram"`
-	Website     sql.NullString `json:"website"`
-	Git         sql.NullString `json:"git"`
-	Cmc         sql.NullString `json:"cmc"`
-	Coingecko   sql.NullString `json:"coingecko"`
+	ProjectName     string         `json:"project_name"`
+	Symbol          sql.NullString `json:"symbol"`
+	ContractAddress sql.NullString `json:"contract_address"`
+	Explorer        sql.NullString `json:"explorer"`
+	Twitter         sql.NullString `json:"twitter"`
+	Facebook        sql.NullString `json:"facebook"`
+	Linkedin        sql.NullString `json:"linkedin"`
+	Medium          sql.NullString `json:"medium"`
+	Telegram        sql.NullString `json:"telegram"`
+	Website         sql.NullString `json:"website"`
+	Git             sql.NullString `json:"git"`
+	Cmc             sql.NullString `json:"cmc"`
+	Coingecko       sql.NullString `json:"coingecko"`
 }
 
 func (q *Queries) CreateProjectInfo(ctx context.Context, arg CreateProjectInfoParams) (ProjectsInfo, error) {
 	row := q.queryRow(ctx, q.createProjectInfoStmt, createProjectInfo,
 		arg.ProjectName,
+		arg.Symbol,
+		arg.ContractAddress,
+		arg.Explorer,
 		arg.Twitter,
 		arg.Facebook,
 		arg.Linkedin,

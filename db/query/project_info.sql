@@ -1,6 +1,9 @@
 -- name: CreateProjectInfo :one
 INSERT INTO projects_info (
     project_name,
+    symbol,
+    contract_address,
+    explorer,
     twitter,
     facebook,
     linkedin,
@@ -9,7 +12,7 @@ INSERT INTO projects_info (
     website,
     git,
     cmc,
-    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;
+    coingecko) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *;
 
 -- name: GetOneProject :one
 SELECT * FROM projects_info

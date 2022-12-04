@@ -1,54 +1,9 @@
 version: "1"
 packages:
   - name: "db"
-    path: "./db/sqlc/main_test/"
-    queries: "./db/query/all_queries/"
+    path: "./db/sqlc/"
+    queries: "./db/query/"
     schema: "./db/migration/"
-    engine: "postgresql"
-    emit_json_tags: true
-    emit_prepared_queries: true
-    emit_interface: false
-    emit_exact_table_names: false
-  - name: "db"
-    path: "./db/sqlc/content/gen/"
-    queries: "./db/query/content/"
-    schema: "./db/migration/000002_content.up.sql"
-    engine: "postgresql"
-    emit_json_tags: true
-    emit_prepared_queries: true
-    emit_interface: false
-    emit_exact_table_names: false
-  - name: "db"
-    path: "./db/sqlc/image_content/gen/"
-    queries: "./db/query/image_content/"
-    schema: "./db/migration/000003_image_content.up.sql"
-    engine: "postgresql"
-    emit_json_tags: true
-    emit_prepared_queries: true
-    emit_interface: false
-    emit_exact_table_names: false
-  - name: "db"
-    path: "./db/sqlc/project_info/gen/"
-    queries: "./db/query/project_info/"
-    schema: "./db/migration/000004_project_info.up.sql"
-    engine: "postgresql"
-    emit_json_tags: true
-    emit_prepared_queries: true
-    emit_interface: false
-    emit_exact_table_names: false
-  - name: "db"
-    path: "./db/sqlc/tags/gen/"
-    queries: "./db/query/tags/"
-    schema: "./db/migration/000005_tags.up.sql"
-    engine: "postgresql"
-    emit_json_tags: true
-    emit_prepared_queries: true
-    emit_interface: false
-    emit_exact_table_names: false
-  - name: "db"
-    path: "./db/sqlc/twitter_bind_account/gen/"
-    queries: "./db/query/twitter_bind_account/"
-    schema: "./db/migration/000006_twitter_bind_account.up.sql"
     engine: "postgresql"
     emit_json_tags: true
     emit_prepared_queries: true

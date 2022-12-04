@@ -22,7 +22,6 @@ INSERT INTO content (
     created_at,
     upload) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, project_name, content, char_count, image_link, image_id, platform, content_type, updated_at, created_at, upload
 `
-
 type CreateOneContentParams struct {
 	ProjectName string         `json:"project_name"`
 	Content     string         `json:"content"`

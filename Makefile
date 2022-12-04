@@ -15,10 +15,14 @@ migratedown:
 
 seed-db:
 	migrate -path db/seed -database "postgresql://root:nina@localhost:5435/nina_app?sslmode=disable" -verbose up
+
 sqlc:
 	sqlc generate
 
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown seed-db sqlc test
+server:
+	go run main.go
+
+.PHONY: postgres createdb dropdb migrateup migratedown seed-db sqlc test server
