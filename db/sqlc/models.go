@@ -4,61 +4,20 @@
 
 package db
 
-import (
-	"database/sql"
-	"time"
-)
+import ()
 
-type Content struct {
-	ID          int32          `json:"id"`
-	ProjectName string         `json:"project_name"`
-	Content     string         `json:"content"`
-	CharCount   int32          `json:"char_count"`
-	ImageLink   sql.NullString `json:"image_link"`
-	ImageID     sql.NullInt32  `json:"image_id"`
-	Platform    string         `json:"platform"`
-	ContentType string         `json:"content_type"`
-	UpdatedAt   time.Time      `json:"updated_at"`
-	CreatedAt   time.Time      `json:"created_at"`
-	Upload      bool           `json:"upload"`
+type Project struct {
+	ProjectName     string      `json:"project_name"`
+	Symbol          string      `json:"symbol"`
+	ContractAddress string      `json:"contract_address"`
+	Owner           string      `json:"owner"`
+	CreatedAt       interface{} `json:"created_at"`
 }
 
-type ImageContent struct {
-	ID           int32          `json:"id"`
-	ProjectName  string         `json:"project_name"`
-	ImageContent string         `json:"image_content"`
-	ContentID    int32          `json:"content_id"`
-	CreatedAt    time.Time      `json:"created_at"`
-	UpdatedAt    time.Time      `json:"updated_at"`
-	Link         sql.NullString `json:"link"`
-}
-
-type ProjectsInfo struct {
-	ProjectName     string         `json:"project_name"`
-	Symbol          sql.NullString `json:"symbol"`
-	ContractAddress sql.NullString `json:"contract_address"`
-	Explorer        sql.NullString `json:"explorer"`
-	Twitter         sql.NullString `json:"twitter"`
-	Facebook        sql.NullString `json:"facebook"`
-	Linkedin        sql.NullString `json:"linkedin"`
-	Medium          sql.NullString `json:"medium"`
-	Telegram        sql.NullString `json:"telegram"`
-	Website         sql.NullString `json:"website"`
-	Git             sql.NullString `json:"git"`
-	Cmc             sql.NullString `json:"cmc"`
-	Coingecko       sql.NullString `json:"coingecko"`
-	CreatedAt       time.Time      `json:"created_at"`
-}
-
-type Tag struct {
-	Tag         string    `json:"tag"`
-	ProjectName string    `json:"project_name"`
-	CreatedAt   time.Time `json:"created_at"`
-}
-
-type TwitterBindAccount struct {
-	ID                int32  `json:"id"`
-	ProjectName       string `json:"project_name"`
-	AccessToken       string `json:"access_token"`
-	AccessTokenSecret string `json:"access_token_secret"`
+type User struct {
+	Username     string      `json:"username"`
+	HashedPwd    string      `json:"hashed_pwd"`
+	Email        string      `json:"email"`
+	PwdChangedAt interface{} `json:"pwd_changed_at"`
+	CreatedAt    interface{} `json:"created_at"`
 }

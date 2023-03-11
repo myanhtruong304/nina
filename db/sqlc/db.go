@@ -24,137 +24,41 @@ func New(db DBTX) *Queries {
 func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	q := Queries{db: db}
 	var err error
-	if q.createOneContentStmt, err = db.PrepareContext(ctx, createOneContent); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateOneContent: %w", err)
+	if q.addProjectStmt, err = db.PrepareContext(ctx, addProject); err != nil {
+		return nil, fmt.Errorf("error preparing query AddProject: %w", err)
 	}
-	if q.createOneImageStmt, err = db.PrepareContext(ctx, createOneImage); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateOneImage: %w", err)
+	if q.addUserStmt, err = db.PrepareContext(ctx, addUser); err != nil {
+		return nil, fmt.Errorf("error preparing query AddUser: %w", err)
 	}
-	if q.createOneTagStmt, err = db.PrepareContext(ctx, createOneTag); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateOneTag: %w", err)
+	if q.getAllProjectStmt, err = db.PrepareContext(ctx, getAllProject); err != nil {
+		return nil, fmt.Errorf("error preparing query GetAllProject: %w", err)
 	}
-	if q.createProjectInfoStmt, err = db.PrepareContext(ctx, createProjectInfo); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateProjectInfo: %w", err)
-	}
-	if q.createTwitterAccountStmt, err = db.PrepareContext(ctx, createTwitterAccount); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateTwitterAccount: %w", err)
-	}
-	if q.deleteProjectStmt, err = db.PrepareContext(ctx, deleteProject); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteProject: %w", err)
-	}
-	if q.getAllContentStmt, err = db.PrepareContext(ctx, getAllContent); err != nil {
-		return nil, fmt.Errorf("error preparing query GetAllContent: %w", err)
-	}
-	if q.getContentOneProjectStmt, err = db.PrepareContext(ctx, getContentOneProject); err != nil {
-		return nil, fmt.Errorf("error preparing query GetContentOneProject: %w", err)
-	}
-	if q.getListProjectsStmt, err = db.PrepareContext(ctx, getListProjects); err != nil {
-		return nil, fmt.Errorf("error preparing query GetListProjects: %w", err)
-	}
-	if q.getOneProjectStmt, err = db.PrepareContext(ctx, getOneProject); err != nil {
-		return nil, fmt.Errorf("error preparing query GetOneProject: %w", err)
-	}
-	if q.updateContentStmt, err = db.PrepareContext(ctx, updateContent); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdateContent: %w", err)
-	}
-	if q.updateImageLinkStmt, err = db.PrepareContext(ctx, updateImageLink); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdateImageLink: %w", err)
-	}
-	if q.updateLinkStmt, err = db.PrepareContext(ctx, updateLink); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdateLink: %w", err)
-	}
-	if q.updatePostStatusStmt, err = db.PrepareContext(ctx, updatePostStatus); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdatePostStatus: %w", err)
-	}
-	if q.updateProjectInfoStmt, err = db.PrepareContext(ctx, updateProjectInfo); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdateProjectInfo: %w", err)
-	}
-	if q.updateProjectTagStmt, err = db.PrepareContext(ctx, updateProjectTag); err != nil {
-		return nil, fmt.Errorf("error preparing query UpdateProjectTag: %w", err)
+	if q.getProjectStmt, err = db.PrepareContext(ctx, getProject); err != nil {
+		return nil, fmt.Errorf("error preparing query GetProject: %w", err)
 	}
 	return &q, nil
 }
 
 func (q *Queries) Close() error {
 	var err error
-	if q.createOneContentStmt != nil {
-		if cerr := q.createOneContentStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createOneContentStmt: %w", cerr)
+	if q.addProjectStmt != nil {
+		if cerr := q.addProjectStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing addProjectStmt: %w", cerr)
 		}
 	}
-	if q.createOneImageStmt != nil {
-		if cerr := q.createOneImageStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createOneImageStmt: %w", cerr)
+	if q.addUserStmt != nil {
+		if cerr := q.addUserStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing addUserStmt: %w", cerr)
 		}
 	}
-	if q.createOneTagStmt != nil {
-		if cerr := q.createOneTagStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createOneTagStmt: %w", cerr)
+	if q.getAllProjectStmt != nil {
+		if cerr := q.getAllProjectStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getAllProjectStmt: %w", cerr)
 		}
 	}
-	if q.createProjectInfoStmt != nil {
-		if cerr := q.createProjectInfoStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createProjectInfoStmt: %w", cerr)
-		}
-	}
-	if q.createTwitterAccountStmt != nil {
-		if cerr := q.createTwitterAccountStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createTwitterAccountStmt: %w", cerr)
-		}
-	}
-	if q.deleteProjectStmt != nil {
-		if cerr := q.deleteProjectStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing deleteProjectStmt: %w", cerr)
-		}
-	}
-	if q.getAllContentStmt != nil {
-		if cerr := q.getAllContentStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getAllContentStmt: %w", cerr)
-		}
-	}
-	if q.getContentOneProjectStmt != nil {
-		if cerr := q.getContentOneProjectStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getContentOneProjectStmt: %w", cerr)
-		}
-	}
-	if q.getListProjectsStmt != nil {
-		if cerr := q.getListProjectsStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getListProjectsStmt: %w", cerr)
-		}
-	}
-	if q.getOneProjectStmt != nil {
-		if cerr := q.getOneProjectStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getOneProjectStmt: %w", cerr)
-		}
-	}
-	if q.updateContentStmt != nil {
-		if cerr := q.updateContentStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updateContentStmt: %w", cerr)
-		}
-	}
-	if q.updateImageLinkStmt != nil {
-		if cerr := q.updateImageLinkStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updateImageLinkStmt: %w", cerr)
-		}
-	}
-	if q.updateLinkStmt != nil {
-		if cerr := q.updateLinkStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updateLinkStmt: %w", cerr)
-		}
-	}
-	if q.updatePostStatusStmt != nil {
-		if cerr := q.updatePostStatusStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updatePostStatusStmt: %w", cerr)
-		}
-	}
-	if q.updateProjectInfoStmt != nil {
-		if cerr := q.updateProjectInfoStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updateProjectInfoStmt: %w", cerr)
-		}
-	}
-	if q.updateProjectTagStmt != nil {
-		if cerr := q.updateProjectTagStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing updateProjectTagStmt: %w", cerr)
+	if q.getProjectStmt != nil {
+		if cerr := q.getProjectStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getProjectStmt: %w", cerr)
 		}
 	}
 	return err
@@ -194,45 +98,21 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 }
 
 type Queries struct {
-	db                       DBTX
-	tx                       *sql.Tx
-	createOneContentStmt     *sql.Stmt
-	createOneImageStmt       *sql.Stmt
-	createOneTagStmt         *sql.Stmt
-	createProjectInfoStmt    *sql.Stmt
-	createTwitterAccountStmt *sql.Stmt
-	deleteProjectStmt        *sql.Stmt
-	getAllContentStmt        *sql.Stmt
-	getContentOneProjectStmt *sql.Stmt
-	getListProjectsStmt      *sql.Stmt
-	getOneProjectStmt        *sql.Stmt
-	updateContentStmt        *sql.Stmt
-	updateImageLinkStmt      *sql.Stmt
-	updateLinkStmt           *sql.Stmt
-	updatePostStatusStmt     *sql.Stmt
-	updateProjectInfoStmt    *sql.Stmt
-	updateProjectTagStmt     *sql.Stmt
+	db                DBTX
+	tx                *sql.Tx
+	addProjectStmt    *sql.Stmt
+	addUserStmt       *sql.Stmt
+	getAllProjectStmt *sql.Stmt
+	getProjectStmt    *sql.Stmt
 }
 
 func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
-		db:                       tx,
-		tx:                       tx,
-		createOneContentStmt:     q.createOneContentStmt,
-		createOneImageStmt:       q.createOneImageStmt,
-		createOneTagStmt:         q.createOneTagStmt,
-		createProjectInfoStmt:    q.createProjectInfoStmt,
-		createTwitterAccountStmt: q.createTwitterAccountStmt,
-		deleteProjectStmt:        q.deleteProjectStmt,
-		getAllContentStmt:        q.getAllContentStmt,
-		getContentOneProjectStmt: q.getContentOneProjectStmt,
-		getListProjectsStmt:      q.getListProjectsStmt,
-		getOneProjectStmt:        q.getOneProjectStmt,
-		updateContentStmt:        q.updateContentStmt,
-		updateImageLinkStmt:      q.updateImageLinkStmt,
-		updateLinkStmt:           q.updateLinkStmt,
-		updatePostStatusStmt:     q.updatePostStatusStmt,
-		updateProjectInfoStmt:    q.updateProjectInfoStmt,
-		updateProjectTagStmt:     q.updateProjectTagStmt,
+		db:                tx,
+		tx:                tx,
+		addProjectStmt:    q.addProjectStmt,
+		addUserStmt:       q.addUserStmt,
+		getAllProjectStmt: q.getAllProjectStmt,
+		getProjectStmt:    q.getProjectStmt,
 	}
 }

@@ -2,22 +2,31 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/nina/api/handler"
 	db "github.com/nina/db/sqlc"
 )
 
 type Server struct {
-	store  *db.Store
+	store  db.Store
 	router *gin.Engine
 }
 
-func NewServer(store *db.Store) *Server {
+func NewServer(r *gin.Engine, store db.Store, h *handler.Handler) *Server {
+	v1 := r.Group("/api/v1")
 	server := &Server{store: store}
-	router := gin.Default()
 
-	router.POST("/add-projects", server.addProjects)
-	router.POST("/update-projects", server.updateProjectInfo)
+	groupUsers := v1.Group("/users")
+	{
+		groupUsers.POST("/create-user", h.CreateUser)
+	}
 
-	server.router = router
+	groupProjects := v1.Group("/projects")
+	{
+		groupProjects.POST("/add-project", h.AddProject)
+		// groupProjects.GET("/projects", server.GetOneProject)
+	}
+
+	server.router = r
 	return server
 }
 
