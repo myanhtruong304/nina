@@ -30,7 +30,7 @@ func main() {
 		log.Fatal("cannot connect to database", err)
 	}
 
-	h := handler.NewHandler(&config)
+	h := handler.NewHandler(config)
 	r := gin.Default()
 	store := db.NewStore(conn)
 	server := api.NewServer(r, store, h)
