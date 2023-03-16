@@ -7,10 +7,12 @@ import (
 
 type Handler struct {
 	entity *entities.Entity
+	cfg    util.Config
 }
 
-func NewHandler(cfg *util.Config) *Handler {
+func NewHandler(cfg util.Config) *Handler {
 	return &Handler{
 		entity: entities.NewEntity(cfg),
+		cfg:    cfg,
 	}
 }
