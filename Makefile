@@ -17,7 +17,7 @@ seed-db:
 	migrate -path db/seed -database "postgresql://root:nina@localhost:5435/nina_app?sslmode=disable" -verbose up
 
 sqlc:
-	sqlc generate
+	sqlc generate templates ./sqlc.tpl
 
 test:
 	go test -v -cover ./...

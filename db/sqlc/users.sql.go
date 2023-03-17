@@ -7,40 +7,41 @@ package db
 
 import (
 	"context"
+	"time"
 )
 
 const addUser = `-- name: AddUser :one
 INSERT INTO users (
     username,
     hashed_pwd,
-    email,
+    user_email,
     pwd_changed_at,
     created_at
-    ) VALUES ($1, $2, $3, $4, $5) RETURNING username, email
+    ) VALUES ($1, $2, $3, $4, $5) RETURNING username, user_email
 `
 
 type AddUserParams struct {
-	Username     string      `json:"username"`
-	HashedPwd    string      `json:"hashed_pwd"`
-	Email        string      `json:"email"`
-	PwdChangedAt interface{} `json:"pwd_changed_at"`
-	CreatedAt    interface{} `json:"created_at"`
+	Username     string    `json:"username"`
+	HashedPwd    string    `json:"hashed_pwd"`
+	UserEmail    string    `json:"user_email"`
+	PwdChangedAt time.Time `json:"pwd_changed_at"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 type AddUserRow struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
+	Username  string `json:"username"`
+	UserEmail string `json:"user_email"`
 }
 
 func (q *Queries) AddUser(ctx context.Context, arg AddUserParams) (AddUserRow, error) {
 	row := q.queryRow(ctx, q.addUserStmt, addUser,
 		arg.Username,
 		arg.HashedPwd,
-		arg.Email,
+		arg.UserEmail,
 		arg.PwdChangedAt,
 		arg.CreatedAt,
 	)
 	var i AddUserRow
-	err := row.Scan(&i.Username, &i.Email)
+	err := row.Scan(&i.Username, &i.UserEmail)
 	return i, err
 }

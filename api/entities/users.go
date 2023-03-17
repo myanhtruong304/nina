@@ -17,7 +17,7 @@ func (e *Entity) CreateUser(c *gin.Context, user *request.CreateUser) (*db.AddUs
 	arg := db.AddUserParams{
 		Username:     user.UserName,
 		HashedPwd:    hashedPassword,
-		Email:        user.Email,
+		UserEmail:    user.Email,
 		PwdChangedAt: time.Now(),
 		CreatedAt:    time.Now(),
 	}

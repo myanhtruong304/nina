@@ -6,13 +6,19 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 type Querier interface {
+	AddContent(ctx context.Context, arg AddContentParams) (string, error)
 	AddProject(ctx context.Context, arg AddProjectParams) (string, error)
 	AddUser(ctx context.Context, arg AddUserParams) (AddUserRow, error)
 	GetAllProject(ctx context.Context) ([]Project, error)
 	GetProject(ctx context.Context, projectName string) (Project, error)
+	ModifyProjectInfo(ctx context.Context, arg ModifyProjectInfoParams) (Project, error)
+	UpdateImageLink(ctx context.Context, arg UpdateImageLinkParams) (sql.NullString, error)
+	UpdateProgress(ctx context.Context, arg UpdateProgressParams) (string, error)
+	UpdateSchedule(ctx context.Context, arg UpdateScheduleParams) (sql.NullString, error)
 }
 
 var _ Querier = (*Queries)(nil)

@@ -1,4 +1,7 @@
-ALTER TABLE IF EXISTS "project" DROP CONSTRAINT IF EXISTS "project_owner_key";
-ALTER TABLE IF EXISTS "project" DROP CONSTRAINT IF EXISTS "project_owner_fkey";
-DROP TABLE IF EXISTS project;
+ALTER TABLE IF EXISTS "contents" DROP CONSTRAINT IF EXISTS "project_content_key";
+ALTER TABLE IF EXISTS "contents" DROP CONSTRAINT IF EXISTS "contents_project_name_fkey";
+ALTER TABLE IF EXISTS "projects" DROP CONSTRAINT IF EXISTS "project_owner_key";
+ALTER TABLE IF EXISTS "projects" DROP CONSTRAINT IF EXISTS "project_owner_fkey";
+DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS contents;

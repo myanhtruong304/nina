@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
@@ -18,8 +19,17 @@ func (h *Handler) AddProject(c *gin.Context) {
 
 	arg := db.AddProjectParams{
 		ProjectName:     req.ProjectName,
-		Symbol:          req.Symbol,
-		ContractAddress: req.ContractAddress,
+		Symbol:          sql.NullString{},
+		Website:         sql.NullString{},
+		Twitter:         sql.NullString{},
+		Telegram:        sql.NullString{},
+		Facebook:        sql.NullString{},
+		Linkedin:        sql.NullString{},
+		Medium:          sql.NullString{},
+		Whitepaper:      sql.NullString{},
+		Email:           sql.NullString{},
+		ContractAddress: sql.NullString{},
+		Explorer:        sql.NullString{},
 		Owner:           req.Owner,
 		CreatedAt:       time.Now(),
 	}
