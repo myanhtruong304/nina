@@ -1,6 +1,7 @@
 package util
 
 import (
+	"database/sql"
 	"math/rand"
 	"strconv"
 	"time"
@@ -30,4 +31,20 @@ func RandomUsername() string {
 	number := rand.Intn(100)
 
 	return adjective + animal + strconv.Itoa(number)
+}
+
+func GetStringFromNullString(ns sql.NullString) string {
+	if ns.Valid {
+		return ns.String
+	}
+	return ""
+}
+
+func ContainsLetters(s string) bool {
+	for _, char := range s {
+		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') {
+			return true
+		}
+	}
+	return false
 }

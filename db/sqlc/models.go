@@ -12,7 +12,7 @@ import (
 type Content struct {
 	ID            string         `json:"id"`
 	Content       string         `json:"content"`
-	WordCount     string         `json:"word_count"`
+	WordCount     int32          `json:"word_count"`
 	ScheduleTime  sql.NullString `json:"schedule_time"`
 	FacebookCheck sql.NullString `json:"facebook_check"`
 	TwitterCheck  sql.NullString `json:"twitter_check"`
@@ -40,6 +40,7 @@ type Project struct {
 	Email           sql.NullString `json:"email"`
 	Owner           string         `json:"owner"`
 	CreatedAt       time.Time      `json:"created_at"`
+	LastUpdatedAt   time.Time      `json:"last_updated_at"`
 }
 
 type User struct {

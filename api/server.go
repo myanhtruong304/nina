@@ -26,6 +26,11 @@ func NewServer(r *gin.Engine, store db.Store, h *handler.Handler) *Server {
 		groupProjects.POST("/upload-image", h.UploadImageToGCS)
 	}
 
+	groupContents := v1.Group("/contents")
+	{
+		groupContents.POST("/create-content", h.CreateContent)
+	}
+
 	server.router = r
 	return server
 }

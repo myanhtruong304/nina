@@ -26,7 +26,7 @@ INSERT INTO contents (
 type AddContentParams struct {
 	ID          string         `json:"id"`
 	Content     string         `json:"content"`
-	WordCount   string         `json:"word_count"`
+	WordCount   int32          `json:"word_count"`
 	ContentType sql.NullString `json:"content_type"`
 	ProjectName string         `json:"project_name"`
 	ImageText   sql.NullString `json:"image_text"`

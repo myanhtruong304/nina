@@ -70,7 +70,7 @@ func (q *Queries) AddProject(ctx context.Context, arg AddProjectParams) (string,
 }
 
 const getAllProject = `-- name: GetAllProject :many
-SELECT project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at FROM projects
+SELECT project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at, last_updated_at FROM projects
 ORDER BY project_name
 `
 
@@ -98,6 +98,7 @@ func (q *Queries) GetAllProject(ctx context.Context) ([]Project, error) {
 			&i.Email,
 			&i.Owner,
 			&i.CreatedAt,
+			&i.LastUpdatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -113,7 +114,7 @@ func (q *Queries) GetAllProject(ctx context.Context) ([]Project, error) {
 }
 
 const getProject = `-- name: GetProject :one
-SELECT project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at FROM projects
+SELECT project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at, last_updated_at FROM projects
 WHERE project_name = $1
 LIMIT 1
 `
@@ -136,6 +137,7 @@ func (q *Queries) GetProject(ctx context.Context, projectName string) (Project, 
 		&i.Email,
 		&i.Owner,
 		&i.CreatedAt,
+		&i.LastUpdatedAt,
 	)
 	return i, err
 }
@@ -153,7 +155,7 @@ UPDATE projects SET
     email = $10,
     contract_address = $11,
     explorer = $12
-WHERE project_name = $1 RETURNING project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at
+WHERE project_name = $1 RETURNING project_name, symbol, contract_address, explorer, website, twitter, facebook, linkedin, telegram, medium, whitepaper, email, owner, created_at, last_updated_at
 `
 
 type ModifyProjectInfoParams struct {
@@ -202,6 +204,7 @@ func (q *Queries) ModifyProjectInfo(ctx context.Context, arg ModifyProjectInfoPa
 		&i.Email,
 		&i.Owner,
 		&i.CreatedAt,
+		&i.LastUpdatedAt,
 	)
 	return i, err
 }
