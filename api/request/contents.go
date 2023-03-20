@@ -2,29 +2,26 @@ package request
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type CreateContentRequest struct {
-	ID          uuid.UUID
-	Content     string
-	ProjectName string
-	ImageText   string
-	CreatedAt   time.Time
+	Content     string `json:"content"`
+	ProjectName string `json:"project_name"`
+	ImageText   string `json:"image_text"`
 }
 
 type UpdateScheduleRequest struct {
-	ScheduleTime time.Time
+	ScheduleTime time.Time `json:"schedule_time"`
 }
 
 type UpdateProgressRequest struct {
-	Facebook string
-	Twitter  string
-	Linkedin string
+	ContentID string `json:"id" bind:"require"`
+	Facebook  string `json:"facebook"`
+	Twitter   string `json:"twitter"`
+	Linkedin  string `json:"linkedin"`
 }
 
-type UpdateImageLinkRequest struct {
-	ImageLink   string
-	LastUpdated time.Time
+type UploadImageRequest struct {
+	ID       string `json:"id"`
+	FilePath string `json:"image_path"`
 }

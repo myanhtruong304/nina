@@ -27,6 +27,7 @@ func (h *Handler) AddProject(c *gin.Context) {
 	projectName, err := h.entity.AddProject(c, arg)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 1": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"result": fmt.Sprintf("project %v has been added.", projectName)})

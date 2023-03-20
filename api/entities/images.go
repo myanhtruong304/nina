@@ -5,18 +5,17 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
-	"time"
+	"strings"
 
 	"cloud.google.com/go/storage"
-	"github.com/k0kubun/pp"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/api/option"
 )
 
-func (e *Entity) UploadImageToGCS(path, project string) (string, error) {
+func (e *Entity) UploadImageToGCS(c *gin.Context, path, content_ID string) (string, error) {
 	APIKey := e.cfg.GoogleServiceAPIKey
+	project := strings.Split(content_ID, "_")[0]
 
-	pp.Println(APIKey)
 	ctx := context.Background()
 	client, err := storage.NewClient(ctx, option.WithAPIKey(APIKey))
 	if err != nil {
@@ -32,9 +31,8 @@ func (e *Entity) UploadImageToGCS(path, project string) (string, error) {
 	}
 	defer file.Close()
 
-	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
 	bucket := client.Bucket("test_myanh")
-	wc := bucket.Object(project + "_" + timestamp).NewWriter(ctx)
+	wc := bucket.Object(project + "/" + content_ID).NewWriter(ctx)
 
 	_, err = io.Copy(wc, file)
 	if err != nil {
@@ -48,6 +46,6 @@ func (e *Entity) UploadImageToGCS(path, project string) (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("https://storage.googleapis.com/test_myanh/%s_%s", project, timestamp), nil
+	return fmt.Sprintf("https://storage.googleapis.com/test_myanh/%s/%s", project, content_ID), nil
 
 }

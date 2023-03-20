@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"github.com/nina/api"
 	"github.com/nina/api/handler"
+	"github.com/nina/api/routes"
 	db "github.com/nina/db/sqlc"
 	"github.com/nina/util"
 )
@@ -33,15 +33,24 @@ func main() {
 	h := handler.NewHandler(config)
 	r := gin.Default()
 	store := db.NewStore(conn)
-	server := api.NewServer(r, store, h)
+	routes := routes.NewRoute(r, store, h)
 
-	err = server.Start(config.ServerAddress)
+	server := &Server{
+		store:  store,
+		router: &routes,
+	}
+
 	if err != nil {
 		log.Fatal("can not start server:", err)
 	}
 
+	err = server.Start(config.ServerAddress)
+
+	if err != nil {
+		log.Fatal("can not start server", err)
+	}
 }
 
-func (s *Server) Start(address string) error {
-	return s.router.Run(address)
+func (server *Server) Start(address string) error {
+	return server.router.Run(address)
 }
